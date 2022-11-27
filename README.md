@@ -4,6 +4,6 @@
 # 目录结构
 .  
 ├── html  
-├── java  
-├── [javascript](https://github.com/ttdly/blocks/blob/main/javascript/README.MD)  
+├── [java](https://github.com/ttdly/blocks/blob/main/java/README.md)  
+├── [javascript](https://github.com/ttdly/blocks/blob/main/javascript/README.md)  
 └── rust  
