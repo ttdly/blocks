@@ -13,6 +13,7 @@
       width: 100vw;
       font-family: Arial, Helvetica, sans-serif;
     }
+    /* 上中下布局 */
     .content{
       height: 100%;
       width: 100%;
@@ -38,6 +39,38 @@
       line-height: 48px;
       text-align: center;
     }
+    /* 上中左右下 */
+    .content1{
+      height: 100%;
+      width: 100%;
+      display: flex;
+      box-sizing: border-box;
+      flex-direction: column;
+    }
+    .header1{
+      height: 52px;
+      background-color: gray;
+      color: aliceblue;
+      line-height: 52px;
+      text-align: center;
+    }
+    .middle1{
+      height: 100%;
+      text-align: center;
+      display: flex;
+    }
+    .aside1{
+      height: 100%;
+      width: 20vw;
+      background-color: beige;
+    }
+    .footer1{
+      height: 48px;
+      background-color: grey;
+      color: aliceblue;
+      line-height: 48px;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
@@ -45,6 +78,15 @@
     <div class="header">header</div>
     <div class="main">main</div>
     <div class="footer">footer</div>
+  </div>
+  <hr>
+  <div class="content1">
+    <div class="header1">header</div>
+    <div class="middle1">
+      <div class="aside1">aside</div>
+      <div class="main1">main</div>
+    </div>
+    <div class="footer1">footer</div>
   </div>
 </body>
 </html>
