@@ -3,7 +3,7 @@
 
 # 目录结构
 .  
-├── html  
-├── [java](https://github.com/ttdly/blocks/blob/main/java/README.md)  
-├── [javascript](https://github.com/ttdly/blocks/blob/main/javascript/README.md)  
+├── [html](https://github.com/ttdly/blocks/blob/main/html)  
+├── [java](https://github.com/ttdly/blocks/blob/main/java)  
+├── [javascript](https://github.com/ttdly/blocks/blob/main/javascript)  
 └── rust  
