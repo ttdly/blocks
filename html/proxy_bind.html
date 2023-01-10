@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>proxy_bind</title>
+</head>
+<body>
+  <input type="text" id="text">
+  <span id="show"></span>
+  <script>
+    let input = document.getElementById('text'),
+    show = document.getElementById('show');
+    const obj = new Proxy({text:''}, {
+      set: (target, key, receiver) => {
+        if (key === 'text') {
+          input.value = receiver;
+          show.innerText = receiver;
+        }
+      },
+      get: (target, key) => {
+        return target[key];
+      }
+    });
+    
+    input.addEventListener('input', function(e) {
+      obj.text = e.target.value;
+      setTimeout(function(){
+        obj.text = 'timeout';
+      },5000)
+    })
+  </script>
+</body>
+</html>
