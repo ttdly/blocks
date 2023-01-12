@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>struct_tree</title>
+  </head>
+  <body>
+    <input
+      type="text"
+      name="original_data"
+      id="original_data"
+      placeholder="用空格隔开"
+    />
+    <button id="confirm">confirm</button>
+    <div>前序遍历：<span id="pre_order"></span></div>
+    <div>中序遍历：<span id="in_order"></span></div>
+    <div>后序遍历：<span id="last_order"></span></div>
+    <script>
+      // 定义树的数据结构
+      class TreeNode {
+        constructor(val) {
+          this.val = val;
+          this.right = null;
+          this.left = null;
+        }
+        // 层序遍历方式构造二叉树
+        creatrTree(originalData) {
+          const tree = new TreeNode(originalData[0]);
+          let queue = [tree],
+            index = 1;
+          for (const node of queue) {
+            queue.push((node.left = new TreeNode(originalData[index])));
+            if (index++ === originalData.length) return tree;
+            queue.push((node.right = new TreeNode(originalData[index])));
+            if (index++ === originalData.length) return tree;
+          }
+        }
+      }
+      // 获取所有要操作的标签
+      const labelPreOrder = document.getElementById("pre_order"),
+        labelInOrder = document.getElementById("in_order"),
+        lableLastOrder = document.getElementById("last_order"),
+        inputOriginalData = document.getElementById("original_data"),
+        buttonConfirm = document.getElementById("confirm");
+      // 数据处理
+        const dealWithData = function () {
+        const originalData = inputOriginalData.value.split(" "),
+          root = TreeNode.prototype.creatrTree(originalData);
+        labelPreOrder.innerText = preOrder(root, []);
+        labelInOrder.innerText = inOrder(root, []);
+        lableLastOrder.innerText = lastOrder(root, []);
+      };
+      // 前序遍历
+      const preOrder = function (node, result) {
+        node.val ? result.push(node.val) : null;
+        if (node.left) preOrder(node.left, result);
+        if (node.right) preOrder(node.right, result);
+        return result.join(",");
+      };
+      // 中序遍历
+      const inOrder = function (node, result) {
+        if (node.left) preOrder(node.left, result);
+        node.val ? result.push(node.val) : null;
+        if (node.right) preOrder(node.right, result);
+        return result.join(",");
+      };
+      // 后序遍历
+      const lastOrder = function (node, result) {
+        if (node.left) preOrder(node.left, result);
+        if (node.right) preOrder(node.right, result);
+        node.val ? result.push(node.val) : null;
+        return result.join(",");
+      };
+      // 绑定按钮事件
+      buttonConfirm.addEventListener("click", dealWithData);
+    </script>
+  </body>
+</html>
