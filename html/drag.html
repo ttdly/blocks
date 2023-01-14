@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drag</title>
+  <style>
+    body,
+    html {
+      height: 100%;
+      width: 100%;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    .container{
+      position: relative;
+      height: 100%;
+      width: 100%;
+      background: gray;
+    }
+    .drag{
+      height: 100px;
+      width: 100px;
+      background: white;
+    }
+    .box{
+      height: 500px;
+      width: 500px;
+      position: absolute;
+      right: calc(50% - 250px);
+      top: 0;
+      background: black;
+    }
+    .clear{
+      position: absolute;
+      right: calc(50%);
+      top: 0;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    function dargElement(e) {
+    }
+    function dargEnter(e) {
+      e.dataTransfer.dropEffect = 'move';
+    }
+    function dragOver(e) {
+      e.preventDefault();
+    }
+    function dragLeave(e) {
+      e.dataTransfer.dropEffect = 'none';
+    }
+    function dropElement(e) {
+      console.log(e)
+      const clone = document.getElementsByClassName('drag')[0].cloneNode(true),
+        box = document.getElementsByClassName('box')[0];
+      clone.style.left = `${e.layerX}px`;
+      clone.style.top = `${e.layerY}px`;
+      clone.style.position = 'absolute';
+      clone.draggable = 'false';
+      clone.ondrag = '';
+      box.appendChild(clone)
+    } 
+    function clear() {
+      
+      console.log('cc')
+    }
+  </script>
+  <div class="container">
+    <div class="drag" draggable="true" ondrag="dargElement(event)"></div>
+    <div 
+      class="box" 
+      ondragenter="dargEnter(event)" 
+      ondragover="dragOver(event)" 
+      ondragleave="dragLeave(event)" 
+      ondrop="dropElement(event)"></div>
+    <button class='clear' onclick="document.getElementsByClassName('box')[0].innerHTML = ''">clear</button>
+  </div>
+</body>
+</html>
