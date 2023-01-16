@@ -81,17 +81,24 @@
           clone.style.top = `${offsetY}px`;
           clone.style.position = "absolute";
           clone.draggable = false;
-          clone.onmouseover = move.over;
+          clone.onclick = move.select;
           clone.onmouseleave = move.leave;
         },
       };
       // 在画布中移动元素事件处理
       const move = {
-        over: (event) => {
-          event.target.style.background = 'blue';
-        },
-        leave: (event) => {
-          event.target.style.background = '';
+        currentDom: null,
+        select: (event) => {
+          if(move.currentDom === null) {
+            move.currentDom = event.target;
+            move.currentDom.style.background = 'blue';
+          }
+        if (move.currentDom !== event.target) {
+            console.log(move.currentDom)
+            move.currentDom.style.background = '';
+            event.target.style.background = 'blue';
+            move.currentDom = event.target;
+          } 
         }
       }
       // 为被拖拽元素绑定事件。
