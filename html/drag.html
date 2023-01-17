@@ -24,7 +24,16 @@
         height: 100px;
         width: 100px;
         background: white;
-        transition: all .2s;
+      }
+      .select::after {
+        --space: -3px;
+        position: absolute;
+        content: "";
+        top: var(--space);
+        left: var(--space);
+        right: var(--space);
+        bottom: var(--space);
+        border: solid 1px white;
       }
       .box {
         height: 500px;
@@ -47,20 +56,20 @@
       // 拖动事件处理
       const drag = {
         dragstart: (event) => {
-          const box = document.getElementsByClassName('box')[0];
-          box.addEventListener('dragenter', drag.dargEnter);
-          box.addEventListener('dragover', drag.dragOver);
-          box.addEventListener('dragleave', drag.dragLeave);
-          box.addEventListener('drop', drag.dropElement);
+          const box = document.getElementsByClassName("box")[0];
+          box.addEventListener("dragenter", drag.dargEnter);
+          box.addEventListener("dragover", drag.dragOver);
+          box.addEventListener("dragleave", drag.dragLeave);
+          box.addEventListener("drop", drag.dropElement);
         },
         dragEnd: (event) => {
-          const box = document.getElementsByClassName('box')[0];
-          box.removeEventListener('dragenter', drag.dargEnter);
-          box.removeEventListener('dragover', drag.dragOver);
-          box.removeEventListener('dragleave', drag.dragLeave);
-          box.removeEventListener('drop', drag.dropElement);
+          const box = document.getElementsByClassName("box")[0];
+          box.removeEventListener("dragenter", drag.dargEnter);
+          box.removeEventListener("dragover", drag.dragOver);
+          box.removeEventListener("dragleave", drag.dragLeave);
+          box.removeEventListener("drop", drag.dropElement);
         },
-        dargEnter: (event)=> {
+        dargEnter: (event) => {
           event.dataTransfer.dropEffect = "move";
         },
         dragOver: (event) => {
@@ -75,38 +84,68 @@
               .cloneNode(true),
             box = document.getElementsByClassName("box")[0];
           box.appendChild(clone);
-          let offsetX = Math.max(0, event.layerX - Math.floor(clone.clientWidth / 2)),
-            offsetY = Math.max(0, event.layerY - Math.floor(clone.clientHeight / 2));
+          let offsetX = Math.max(
+              0,
+              event.layerX - Math.floor(clone.clientWidth / 2)
+            ),
+            offsetY = Math.max(
+              0,
+              event.layerY - Math.floor(clone.clientHeight / 2)
+            );
           clone.style.left = `${offsetX}px`;
           clone.style.top = `${offsetY}px`;
           clone.style.position = "absolute";
           clone.draggable = false;
           clone.onclick = move.select;
-          clone.onmouseleave = move.leave;
+          clone.addEventListener('mousedown', move.mouseDown);
         },
       };
       // 在画布中移动元素事件处理
       const move = {
         currentDom: null,
+        position: {
+          startX: 0,
+          startY: 0,
+          currX: 0,
+          currY: 0
+        },
         select: (event) => {
-          if(move.currentDom === null) {
+          // 对选中的元素进行样式改变
+          if (move.currentDom === null) {
             move.currentDom = event.target;
-            move.currentDom.style.background = 'blue';
+            move.currentDom.className += " select";
           }
-        if (move.currentDom !== event.target) {
-            console.log(move.currentDom)
-            move.currentDom.style.background = '';
-            event.target.style.background = 'blue';
+          if (move.currentDom !== event.target) {
+            move.currentDom.className = "drag";
+            event.target.className += " select";
             move.currentDom = event.target;
-          } 
+          }
+        },
+        mouseDown: (event) => {
+          move.select(event);
+          move.position.startX = event.clientX;
+          move.position.startY = event.clientY;
+          move.currentDom.addEventListener('mousemove', move.mouseMove);
+          move.currentDom.addEventListener('mouseup', move.mouseUp);
+          move.position.currX = parseInt(move.currentDom?.style.left.replace('px', ''));
+          move.position.currY = parseInt(move.currentDom?.style.top.replace('px', ''));
+        },
+        mouseMove: (event) => {
+          // TODO 移动速度过快会有卡顿
+          move.currentDom.style.left = `${event.clientX - move.position.startX + move.position.currX}px`;
+          move.currentDom.style.top = `${event.clientY - move.position.startY + move.position.currY}px`;
+        },
+        mouseUp: (event) => {
+          move.currentDom.removeEventListener('mousemove', move.mouseMove);
+          move.currentDom.removeEventListener('mouseup', move.mouseUp);
         }
-      }
+      };
       // 为被拖拽元素绑定事件。
       window.onload = function () {
-        const dragElem = document.getElementsByClassName('drag')[0];
-        dragElem.addEventListener('dragstart', drag.dragstart);
-        dragElem.addEventListener('dragend', drag.dragEnd)
-      }
+        const dragElem = document.getElementsByClassName("drag")[0];
+        dragElem.addEventListener("dragstart", drag.dragstart);
+        dragElem.addEventListener("dragend", drag.dragEnd);
+      };
     </script>
     <div class="container">
       <div class="drag" draggable="true"></div>
