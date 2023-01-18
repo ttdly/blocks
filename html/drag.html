@@ -96,19 +96,15 @@
           clone.style.top = `${offsetY}px`;
           clone.style.position = "absolute";
           clone.draggable = false;
-          clone.onclick = move.select;
           clone.addEventListener('mousedown', move.mouseDown);
+          move.box = box;
         },
       };
       // 在画布中移动元素事件处理
       const move = {
         currentDom: null,
-        position: {
-          startX: 0,
-          startY: 0,
-          currX: 0,
-          currY: 0
-        },
+        position: null,
+        box: null,
         select: (event) => {
           // 对选中的元素进行样式改变
           if (move.currentDom === null) {
@@ -123,21 +119,39 @@
         },
         mouseDown: (event) => {
           move.select(event);
-          move.position.startX = event.clientX;
-          move.position.startY = event.clientY;
-          move.currentDom.addEventListener('mousemove', move.mouseMove);
-          move.currentDom.addEventListener('mouseup', move.mouseUp);
-          move.position.currX = parseInt(move.currentDom?.style.left.replace('px', ''));
-          move.position.currY = parseInt(move.currentDom?.style.top.replace('px', ''));
+          startX = event.clientX;
+          startY = event.clientY;
+          currX = parseInt(move.currentDom.style.left.replace('px', ''));
+          currY = parseInt(move.currentDom.style.top.replace('px', ''));
+          move.position = new Proxy({
+            startX: startX,
+            startY: startY,
+            currX: currX,
+            currY: currY,
+            clientX: 0,
+            clientY: 0
+          }, {
+            set(target, property, value) {
+              console.log(property)
+              if (property === 'clientX') {
+                move.currentDom.style.left = `${value - target.startX + target.currX < 0 ? 0 : value - target.startX + target.currX}px`;
+              }
+              if (property === 'clientY') move.currentDom.style.top = `${value - target.startY + target.currY}px`;
+            }
+          })
+          move.box.addEventListener('mousemove', move.mouseMove);
+          move.box.addEventListener('mouseup', move.mouseUp);
         },
         mouseMove: (event) => {
-          // TODO 移动速度过快会有卡顿
-          move.currentDom.style.left = `${event.clientX - move.position.startX + move.position.currX}px`;
-          move.currentDom.style.top = `${event.clientY - move.position.startY + move.position.currY}px`;
+          move.position.clientX = event.clientX;
+          move.position.clientY = event.clientY;
         },
         mouseUp: (event) => {
-          move.currentDom.removeEventListener('mousemove', move.mouseMove);
-          move.currentDom.removeEventListener('mouseup', move.mouseUp);
+          move.box.removeEventListener('mousemove', move.mouseMove);
+          move.box.removeEventListener('mouseup', move.mouseUp);
+        },
+        mouseLeave: (event) => {
+          move.mouseUp(event)
         }
       };
       // 为被拖拽元素绑定事件。
