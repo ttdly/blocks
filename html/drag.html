@@ -102,27 +102,14 @@
       };
       // 在画布中移动元素事件处理
       const move = {
-        currentDom: null,
         position: null,
         box: null,
-        select: (event) => {
-          // 对选中的元素进行样式改变
-          if (move.currentDom === null) {
-            move.currentDom = event.target;
-            move.currentDom.className += " select";
-          }
-          if (move.currentDom !== event.target) {
-            move.currentDom.className = "drag";
-            event.target.className += " select";
-            move.currentDom = event.target;
-          }
-        },
         mouseDown: (event) => {
-          move.select(event);
+          event.target.style.opacity = 0.8;
           startX = event.clientX;
           startY = event.clientY;
-          currX = parseInt(move.currentDom.style.left.replace('px', ''));
-          currY = parseInt(move.currentDom.style.top.replace('px', ''));
+          currX = parseInt(event.target.style.left.replace('px', ''));
+          currY = parseInt(event.target.style.top.replace('px', ''));
           move.position = new Proxy({
             startX: startX,
             startY: startY,
@@ -132,11 +119,10 @@
             clientY: 0
           }, {
             set(target, property, value) {
-              console.log(property)
               if (property === 'clientX') {
-                move.currentDom.style.left = `${value - target.startX + target.currX < 0 ? 0 : value - target.startX + target.currX}px`;
+                event.target.style.left = `${value - target.startX + target.currX < 0 ? 0 : value - target.startX + target.currX}px`;
               }
-              if (property === 'clientY') move.currentDom.style.top = `${value - target.startY + target.currY}px`;
+              if (property === 'clientY') event.target.style.top = `${value - target.startY + target.currY}px`;
             }
           })
           move.box.addEventListener('mousemove', move.mouseMove);
@@ -147,6 +133,7 @@
           move.position.clientY = event.clientY;
         },
         mouseUp: (event) => {
+          event.target.style.opacity = 1;
           move.box.removeEventListener('mousemove', move.mouseMove);
           move.box.removeEventListener('mouseup', move.mouseUp);
         },
