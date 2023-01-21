@@ -120,9 +120,11 @@
           }, {
             set(target, property, value) {
               if (property === 'clientX') {
-                event.target.style.left = `${value - target.startX + target.currX < 0 ? 0 : value - target.startX + target.currX}px`;
+                event.target.style.left = `${Math.max(value - target.startX + target.currX, 0)}px`;
               }
-              if (property === 'clientY') event.target.style.top = `${value - target.startY + target.currY}px`;
+              if (property === 'clientY') {
+                event.target.style.top = `${Math.max(value - target.startY + target.currY, 0)}px`;
+              }
             }
           })
           move.box.addEventListener('mousemove', move.mouseMove);
