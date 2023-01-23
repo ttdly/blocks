@@ -95,7 +95,8 @@
           clone.style.left = `${offsetX}px`;
           clone.style.top = `${offsetY}px`;
           clone.style.position = "absolute";
-          clone.draggable = false;
+          // clone.draggable = false;
+          clone.removeAttribute('draggable');
           clone.addEventListener('mousedown', move.mouseDown);
           move.box = box;
         },
