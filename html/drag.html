@@ -25,15 +25,9 @@
         width: 100px;
         background: white;
       }
-      .select::after {
-        --space: -3px;
-        position: absolute;
-        content: "";
-        top: var(--space);
-        left: var(--space);
-        right: var(--space);
-        bottom: var(--space);
-        border: solid 1px white;
+      .select {
+        opacity: 0.6;
+        z-index: -1;
       }
       .box {
         height: 500px;
@@ -52,27 +46,29 @@
   </head>
   <body>
     <script defer>
-      function dargElement(e) {}
       // 拖动事件处理
       const drag = {
+        box: null,
         dragstart: (event) => {
-          const box = document.getElementsByClassName("box")[0];
-          box.addEventListener("dragenter", drag.dargEnter);
-          box.addEventListener("dragover", drag.dragOver);
-          box.addEventListener("dragleave", drag.dragLeave);
-          box.addEventListener("drop", drag.dropElement);
+          // 为容器注册拖动处理事件
+          drag.box.addEventListener("dragenter", drag.dargEnter);
+          drag.box.addEventListener("dragover", drag.dragOver);
+          drag.box.addEventListener("dragleave", drag.dragLeave);
+          drag.box.addEventListener("drop", drag.dropElement);
         },
         dragEnd: (event) => {
-          const box = document.getElementsByClassName("box")[0];
-          box.removeEventListener("dragenter", drag.dargEnter);
-          box.removeEventListener("dragover", drag.dragOver);
-          box.removeEventListener("dragleave", drag.dragLeave);
-          box.removeEventListener("drop", drag.dropElement);
+          // 为容器注销拖动处理事件
+          drag.box.removeEventListener("dragenter", drag.dargEnter);
+          drag.box.removeEventListener("dragover", drag.dragOver);
+          drag.box.removeEventListener("dragleave", drag.dragLeave);
+          drag.box.removeEventListener("drop", drag.dropElement);
         },
         dargEnter: (event) => {
+          // 修改拖动的类型
           event.dataTransfer.dropEffect = "move";
         },
         dragOver: (event) => {
+          // 阻止其他事件
           event.preventDefault();
         },
         dragLeave: (event) => {
@@ -95,7 +91,6 @@
           clone.style.left = `${offsetX}px`;
           clone.style.top = `${offsetY}px`;
           clone.style.position = "absolute";
-          // clone.draggable = false;
           clone.removeAttribute('draggable');
           clone.addEventListener('mousedown', move.mouseDown);
           move.box = box;
@@ -149,6 +144,8 @@
         const dragElem = document.getElementsByClassName("drag")[0];
         dragElem.addEventListener("dragstart", drag.dragstart);
         dragElem.addEventListener("dragend", drag.dragEnd);
+        drag.box = document.getElementsByClassName("box")[0];
+        move.box = drag.box;
       };
     </script>
     <div class="container">
