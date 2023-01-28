@@ -64,7 +64,7 @@
           drag.box.removeEventListener("drop", drag.dropElement);
         },
         dargEnter: (event) => {
-          // 修改拖动的类型
+          // 修改拖动的类型（这里会改变鼠标样式）
           event.dataTransfer.dropEffect = "move";
         },
         dragOver: (event) => {
@@ -72,14 +72,14 @@
           event.preventDefault();
         },
         dragLeave: (event) => {
+          // 修改拖动的类型（这里会改变鼠标样式）
           event.dataTransfer.dropEffect = "none";
         },
         dropElement: (event) => {
           const clone = document
               .getElementsByClassName("drag")[0]
-              .cloneNode(true),
-            box = document.getElementsByClassName("box")[0];
-          box.appendChild(clone);
+              .cloneNode(true);
+          drag.box.appendChild(clone);
           let offsetX = Math.max(
               0,
               event.layerX - Math.floor(clone.clientWidth / 2)
@@ -93,7 +93,7 @@
           clone.style.position = "absolute";
           clone.removeAttribute('draggable');
           clone.addEventListener('mousedown', move.mouseDown);
-          move.box = box;
+          move.box = drag.box;
         },
       };
       // 在画布中移动元素事件处理
