@@ -24,10 +24,11 @@
         height: 100px;
         width: 100px;
         background: white;
+        z-index: 0;
       }
       .select {
         opacity: 0.6;
-        z-index: -1;
+        z-index: 999;
       }
       .box {
         height: 500px;
@@ -101,7 +102,7 @@
         position: null,
         box: null,
         mouseDown: (event) => {
-          event.target.style.opacity = 0.8;
+          event.target.className += ' select';
           startX = event.clientX;
           startY = event.clientY;
           currX = parseInt(event.target.style.left.replace('px', ''));
@@ -131,7 +132,7 @@
           move.position.clientY = event.clientY;
         },
         mouseUp: (event) => {
-          event.target.style.opacity = 1;
+          event.target.className = event.target.className.replace(' select', '');
           move.box.removeEventListener('mousemove', move.mouseMove);
           move.box.removeEventListener('mouseup', move.mouseUp);
         },
