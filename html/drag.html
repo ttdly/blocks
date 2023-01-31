@@ -126,6 +126,7 @@
           })
           move.box.addEventListener('mousemove', move.mouseMove);
           move.box.addEventListener('mouseup', move.mouseUp);
+          move.box.addEventListener('mouseleave', move.mouseUp);
         },
         mouseMove: (event) => {
           move.position.clientX = event.clientX;
@@ -135,6 +136,7 @@
           event.target.className = event.target.className.replace(' select', '');
           move.box.removeEventListener('mousemove', move.mouseMove);
           move.box.removeEventListener('mouseup', move.mouseUp);
+          move.box.removeEventListener('mouseleave', move.mouseUp);
         },
         mouseLeave: (event) => {
           move.mouseUp(event)
