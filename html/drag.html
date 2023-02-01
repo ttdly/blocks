@@ -48,6 +48,7 @@
   <body>
     <script defer>
       // 拖动事件处理
+      let currentDom = null;
       const drag = {
         box: null,
         dragstart: (event) => {
@@ -102,6 +103,7 @@
         position: null,
         box: null,
         mouseDown: (event) => {
+          currentDom = event.target;
           event.target.className += ' select';
           startX = event.clientX;
           startY = event.clientY;
@@ -126,20 +128,20 @@
           })
           move.box.addEventListener('mousemove', move.mouseMove);
           move.box.addEventListener('mouseup', move.mouseUp);
-          move.box.addEventListener('mouseleave', move.mouseUp);
+          move.box.addEventListener('mouseleave', move.mouseLeave);
         },
         mouseMove: (event) => {
           move.position.clientX = event.clientX;
           move.position.clientY = event.clientY;
         },
-        mouseUp: (event) => {
-          event.target.className = event.target.className.replace(' select', '');
+        mouseUp: () => {
+          currentDom.className = currentDom.className.replace(' select', '');
           move.box.removeEventListener('mousemove', move.mouseMove);
           move.box.removeEventListener('mouseup', move.mouseUp);
-          move.box.removeEventListener('mouseleave', move.mouseUp);
+          move.box.removeEventListener('mouseleave', move.mouseLeave);
         },
-        mouseLeave: (event) => {
-          move.mouseUp(event)
+        mouseLeave: () => {
+          move.mouseUp()
         }
       };
       // 为被拖拽元素绑定事件。
