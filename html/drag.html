@@ -79,8 +79,8 @@
         },
         dropElement: (event) => {
           const clone = document
-              .getElementsByClassName("drag")[0]
-              .cloneNode(true);
+            .getElementsByClassName("drag")[0]
+            .cloneNode(true);
           drag.box.appendChild(clone);
           let offsetX = Math.max(
               0,
@@ -93,67 +93,86 @@
           clone.style.left = `${offsetX}px`;
           clone.style.top = `${offsetY}px`;
           clone.style.position = "absolute";
-          clone.removeAttribute('draggable');
-          clone.addEventListener('mousedown', move.mouseDown);
+          clone.removeAttribute("draggable");
+          clone.addEventListener("mousedown", move.mouseDown);
           move.box = drag.box;
         },
       };
       // 在画布中移动元素事件处理
       const move = {
-        position: null,
+        position: {
+          startX: 0,
+          startY: 0,
+          currX: 0,
+          currY: 0,
+          clientX: 0,
+          clientY: 0,
+        },
         box: null,
+        select: null,
+        varPool: {},
+        /**
+         * 用于计算需要拖动到的位置
+         * @date 2023-02-03
+         * @param {number} from 起始位置
+         * @param {number} to 到达位置
+         * @param {number} position 元素本身位置
+         * @param {number} box 盒子宽度
+         * @param {number} dom 拖动元素宽度
+         * @returns {number} 计算实际结果
+         */
+        constrain: (from, to, position, box, dom) => {
+          move.varPool.var1 = to - from + position; // 记录当前需要到达的位置
+          move.varPool.var2 = box - dom; // 记录最大边界
+          if (move.varPool.var1 < 0) {
+            return 0;
+          }
+          if (move.varPool.var1 > move.varPool.var2) {
+            return move.varPool.var2;
+          }
+          return move.varPool.var1;
+        },
         mouseDown: (event) => {
-          currentDom = event.target;
-          event.target.className += ' select';
-          startX = event.clientX;
-          startY = event.clientY;
-          currX = parseInt(event.target.style.left.replace('px', ''));
-          currY = parseInt(event.target.style.top.replace('px', ''));
-          move.position = new Proxy({
-            startX: startX,
-            startY: startY,
-            currX: currX,
-            currY: currY,
-            clientX: 0,
-            clientY: 0
-          }, {
-            set(target, property, value) {
-              if (property === 'clientX') {
-                // 左右方向限制
-                target.clientX = value - target.startX + target.currX; // 记录当前要到的位置
-                target.clientY = move.box.clientWidth - event.target.clientWidth; // 由于暂时用不上，用于记录右边界，左边界是0
-                if (target.clientX < 0) {
-                  // 超出右边界
-                  event.target.style.left = '0px';
-                } else if (target.clientX > target.clientY) {
-                  // 超出左边界
-                  event.target.style.left = `${target.clientY}px`;
-                } else {
-                  event.target.style.left = `${target.clientX}px`;
-                }
-              }
-              if (property === 'clientY') {
-                event.target.style.top = `${Math.max(value - target.startY + target.currY, 0)}px`;
-              }
-            }
-          })
-          move.box.addEventListener('mousemove', move.mouseMove);
-          move.box.addEventListener('mouseup', move.mouseUp);
-          move.box.addEventListener('mouseleave', move.mouseLeave);
+          move.select = event.target;
+          event.target.className += " select";
+          if (!move.position) {
+            move.positionInit();
+          }
+          with (move.position) {
+            startX = event.clientX;
+            startY = event.clientY;
+            currX = parseInt(event.target.style.left.replace("px", ""));
+            currY = parseInt(event.target.style.top.replace("px", ""));
+          }
+          move.box.addEventListener("mousemove", move.mouseMove);
+          move.box.addEventListener("mouseup", move.mouseUp);
+          move.box.addEventListener("mouseleave", move.mouseLeave);
         },
         mouseMove: (event) => {
-          move.position.clientX = event.clientX;
-          move.position.clientY = event.clientY;
+          move.select.style.left = `${move.constrain(
+            move.position.startX,
+            event.clientX,
+            move.position.currX,
+            move.box.clientWidth,
+            move.select.clientWidth
+          )}px`;
+          move.select.style.top = `${move.constrain(
+            move.position.startY,
+            event.clientY,
+            move.position.currY,
+            move.box.clientHeight,
+            move.select.clientHeight
+          )}px`;
         },
         mouseUp: () => {
-          currentDom.className = currentDom.className.replace(' select', '');
-          move.box.removeEventListener('mousemove', move.mouseMove);
-          move.box.removeEventListener('mouseup', move.mouseUp);
-          move.box.removeEventListener('mouseleave', move.mouseLeave);
+          move.select.className = move.select.className.replace(" select", "");
+          move.box.removeEventListener("mousemove", move.mouseMove);
+          move.box.removeEventListener("mouseup", move.mouseUp);
+          move.box.removeEventListener("mouseleave", move.mouseLeave);
         },
         mouseLeave: () => {
-          move.mouseUp()
-        }
+          move.mouseUp();
+        },
       };
       // 为被拖拽元素绑定事件。
       window.onload = function () {
