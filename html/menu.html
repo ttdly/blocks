@@ -15,12 +15,22 @@
     }
     .menu-box{
       position: absolute;
-      display: none;
+      /* display: none; */
       background: white;
       width: 100px;
       height: auto;
       padding: 6px 10px;
       z-index: 999;
+      border-radius: 2px;
+    }
+    .menu-item {
+      height: 26px;
+      font-size: 14px;
+      line-height: 28px;
+      transition: all .2s;
+    }
+    .menu-item:hover {
+      background: rgb(231, 231, 231);
     }
     ul{
       padding: 0;
@@ -34,9 +44,9 @@
 <body>
   <div class="menu-box" id="menu-box">
     <ul>
-      <li>1</li>
-      <li>2</li>
-      <li>3</li>
+      <li class="menu-item">菜单1</li>
+      <li class="menu-item">菜单2</li>
+      <li class="menu-item">菜单3</li>
     </ul>
   </div>
   <script>
