@@ -12,6 +12,8 @@
       box-sizing: border-box;
       background: gray;
       position: relative;
+      height: 100%;
+      width: 100%;
     }
     .menu-box{
       position: absolute;
@@ -56,9 +58,11 @@
     window.onload = function () {
       document.getElementsByTagName('html')[0].addEventListener('contextmenu',e =>{
         e.preventDefault();
-        document.getElementById('menu-box').style.left = `${e.clientX}px`
-        document.getElementById('menu-box').style.top = `${e.clientY}px`
-        document.getElementById('menu-box').style.display = 'block';
+        const menuBox = document.getElementById('menu-box');
+        menuBox.style.left = `${Math.min(e.clientX, document.body.clientWidth - menuBox.clientWidth)}px`;
+        menuBox.style.top = `${Math.min(e.clientY, document.body.clientHeight - menuBox.clientHeight)}px`;
+        console.log(document.body )
+        menuBox.style.display = 'block';
       })
     }
     function closeMenu() {
