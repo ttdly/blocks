@@ -17,12 +17,12 @@
     }
     .menu-box{
       position: absolute;
-      /* display: none; */
+      cursor: pointer;
       background: white;
       width: 100px;
       height: auto;
       padding: 6px 10px;
-      z-index: 999;
+      z-index: -999;
       border-radius: 2px;
     }
     .menu-item {
@@ -62,11 +62,11 @@
         menuBox.style.left = `${Math.min(e.clientX, document.body.clientWidth - menuBox.clientWidth)}px`;
         menuBox.style.top = `${Math.min(e.clientY, document.body.clientHeight - menuBox.clientHeight)}px`;
         console.log(document.body )
-        menuBox.style.display = 'block';
+        menuBox.style.zIndex = '9999';
       })
     }
     function closeMenu() {
-      document.getElementById('menu-box').style.display = 'none';
+      document.getElementById('menu-box').style.zIndex = '-999';
     }
   </script>
 </body>
