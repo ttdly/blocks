@@ -31,7 +31,7 @@
         background: white;
         z-index: 0;
       }
-      .select {
+      [select] {
         opacity: 0.6;
         z-index: 999;
       }
@@ -137,7 +137,7 @@
         },
         mouseDown: (event) => {
           move.select = event.target;
-          event.target.className += " select";
+          event.target.setAttribute('select',true);
           if (!move.position) {
             move.positionInit();
           }
@@ -169,7 +169,7 @@
           )}px`;
         },
         mouseUp: () => {
-          move.select.className = move.select.className.replace(" select", "");
+          move.select.removeAttribute('select');
           move.box.removeEventListener("mousemove", move.mouseMove);
           move.box.removeEventListener("mouseup", move.mouseUp);
           move.box.removeEventListener("mouseleave", move.mouseLeave);
