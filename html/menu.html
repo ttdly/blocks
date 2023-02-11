@@ -52,6 +52,7 @@
       <li class="menu-item" onclick="closeMenu()">菜单1</li>
       <li class="menu-item" onclick="closeMenu()">菜单2</li>
       <li class="menu-item" onclick="closeMenu()">菜单3</li>
+      <li class="menu-item"><input type="text" name="foo" id="foo"></li>
     </ul>
   </div>
   <script>
@@ -61,7 +62,6 @@
         const menuBox = document.getElementById('menu-box');
         menuBox.style.left = `${Math.min(e.clientX, document.body.clientWidth - menuBox.clientWidth)}px`;
         menuBox.style.top = `${Math.min(e.clientY, document.body.clientHeight - menuBox.clientHeight)}px`;
-        console.log(document.body )
         menuBox.style.zIndex = '9999';
       })
     }
