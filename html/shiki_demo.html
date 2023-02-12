@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>shiki-demo</title>
+  <script src="https://cdn.jsdelivr.net/npm/shiki"></script>
+  <style>
+    #output >code {
+      width: 200px;
+      padding: 16px 12px;
+    }
+  </style>
+</head>
+
+<body>
+  <script>
+    function highlight(target) {
+      shiki
+        .getHighlighter({
+          theme: 'nord'
+        })
+        .then(highlighter => {
+          const code = highlighter.codeToHtml(target.innerText, { lang: 'js' })
+          target.innerHTML = code
+        })
+    }
+      // highlight();
+  </script>
+  <div id="output" contenteditable="true" on></div>
+  <script>
+    function debounce (delay, callback) {
+      let timer;
+      return function(value){
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+          callback(value);
+        },delay)
+      }
+    }
+    document.getElementById('output').addEventListener('keyup', debounce(5000,(e)=>{
+      highlight(e.target);
+    }))
+  </script>
+</body>
+
+</html>
