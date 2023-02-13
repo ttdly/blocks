@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>auto_input</title>
+  <style>
+    #input{
+      height: 100px;
+      width: 200px;
+      line-height: 16px;
+      padding: 14px 10px;
+      background: rgb(230, 230, 230);
+      color: rgb(61, 61, 61);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div id="input" contenteditable="true"></div>
+  <script>
+    let strqueue = '';
+    document.addEventListener("keyup", (e)=>{
+      if (e.key === '`') {
+        strqueue+=e.key;
+        if(strqueue === '```') {
+          e.target.innerText+='\n\n```'
+        }
+        console.log(strqueue);
+      } else {
+        strqueue = '';
+      }
+    })
+  </script>
+</body>
+</html>
