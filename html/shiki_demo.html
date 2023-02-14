@@ -8,7 +8,7 @@
   <title>shiki-demo</title>
   <script src="https://cdn.jsdelivr.net/npm/shiki"></script>
   <style>
-    #output >code {
+    #output {
       width: 200px;
       padding: 16px 12px;
     }
@@ -41,7 +41,7 @@
       }
     }
     document.getElementById('output').addEventListener('keyup', debounce(5000,(e)=>{
-      highlight(e.target);
+      highlight(document.getElementById('output'));
     }))
   </script>
 </body>
