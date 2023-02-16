@@ -4,7 +4,7 @@
   "description": "for some code block",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node ./index.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/ttdly/blocks#readme",
   "dependencies": {
+    "fs-extra": "^11.1.0",
     "shiki": "^0.14.1"
   }
 }
