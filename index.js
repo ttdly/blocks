@@ -6,7 +6,7 @@ shiki.getHighlighter({
   langs: ['javascript', 'java', 'html', "rust"]
 }).then((highlighter) => {
   for (const i of inputDir) {
-    const baseDir = `./${i}/`;
+    const baseDir = `./code/${i}/`;
     for (const fileName of [...fs.readdirSync(baseDir)]) {
       if (fileName === "README.md") continue;
       console.log(baseDir + fileName);
