@@ -14,7 +14,7 @@ shiki.getHighlighter({
   }
 });
 function code2html (fileName) {
-  fs.readFile(fileName, "utf-8", (error, data) => {
+  fs.readFile("fileName", "utf-8", (error, data) => {
     if (error) {
       console.error(error);
       return false;
