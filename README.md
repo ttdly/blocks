@@ -1,9 +1,2 @@
 # Blocks
-记录点杂乱的代码
-
-# 目录结构
-.  
-├── [html](https://github.com/ttdly/blocks/blob/main/html)  
-├── [java](https://github.com/ttdly/blocks/blob/main/java)  
-├── [javascript](https://github.com/ttdly/blocks/blob/main/javascript)  
-└── rust  
+将代码片段并转成html并以此生成网站以供浏览代码片段
