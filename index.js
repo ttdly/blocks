@@ -33,4 +33,8 @@ function code2html (fileName, highlighter, cate) {
       encoding:"utf-8"
     });
   })
+  copyConfig();
+}
+function copyConfig() {
+  fs.copyFileSync("./index.html", "./dist/index.html");
 }
