@@ -1,12 +1,13 @@
 const fs = require("fs-extra"),
       shiki = require("shiki");
-const {output, baseDir, codes} = require("./config");
+const {output, baseDir, languages} = require("./config");
 
+fs.removeSync(output);
 shiki.getHighlighter({
   theme: 'github-light',
-  langs: ['js', 'java', 'html', "rust"]
+  langs: languages
 }).then((highlighter) => {
-  for (const i of codes) {
+  for (const i of languages) {
     for (const fileName of [...fs.readdirSync(`${baseDir}/${i}/`)]) {
       if (fileName === "README.md") continue;
       code2html(fileName, highlighter, i);
@@ -34,7 +35,7 @@ function code2html (fileName, highlighter, cate) {
     copyConfig();
   })
 }
-copyConfig();
+// 复制静态资源
 function copyConfig() {
   fs.copyFileSync("./index.html", "./dist/index.html");
   fs.copySync("./assets","./dist/assets")
