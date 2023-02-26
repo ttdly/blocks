@@ -47,5 +47,5 @@ function copyConfig() {
 }
 // 生成目录文件
 function create_uris(uris) {
-  fs.writeFileSync("./dist/uris.js", `module.exports = {uri:${JSON.stringify(uris)}}`)
+  fs.writeFileSync("./dist/uris.js", `const uri = ${JSON.stringify(uris)};`)
 }

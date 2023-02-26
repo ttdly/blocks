@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,22 +8,40 @@
   <title>blocks</title>
   <link rel="stylesheet" href="./assets/css/index.css">
 </head>
+
 <body>
   <div class="main">
     <div class="head">
       <span>Blocks</span>
     </div>
     <div style="display: flex;height: calc(100% - var(--head-height));">
-      <div class="list">
-        <li>java</li>
+      <div class="list" id="list">
+        <li floder>java
+        <li file>1</li>
+        <li>2</li>
+        <li>3</li>
+        </li>
         <li>js</li>
         <li>rust</li>
         <li>html</li>
       </div>
       <div class="content">
-        <iframe src="./dist/java/MD5Utils.html" frameborder="0" style="height: 100%;width: 100%;"></iframe>
+        <!-- <iframe src="./dist/java/MD5Utils.html" frameborder="0" style="height: 100%;width: 100%;"></iframe> -->
       </div>
     </div>
   </div>
+  <script src="./uris.js"></script>
+  <script>
+    let output = '';
+    for (const i in uri) {
+      output += `<li floder>${i}`;
+      for (const d of uri[i]) {
+        output += `<li file="${i}/${d}">${d}</li>`
+      }
+      output += `</li>`;
+    }
+    document.getElementById("list").innerHTML = output;
+  </script>
 </body>
+
 </html>
