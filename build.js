@@ -11,7 +11,7 @@ shiki.getHighlighter({
     let dir = new Array();
     for (const fileName of [...fs.readdirSync(`${baseDir}/${i}/`)]) {
       if (fileName === "README.md") continue;
-      // code2html(fileName, highlighter, i);
+      code2html(fileName, highlighter, i);
       dir.push(fileName);
     }
     uris[i] = dir;

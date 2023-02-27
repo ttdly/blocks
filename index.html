@@ -26,7 +26,7 @@
         <li>html</li>
       </div>
       <div class="content">
-        <!-- <iframe src="./dist/java/MD5Utils.html" frameborder="0" style="height: 100%;width: 100%;"></iframe> -->
+        <iframe src="" frameborder="0" style="height: 100%;width: 100%;" id="page"></iframe>
       </div>
     </div>
   </div>
@@ -35,12 +35,16 @@
     let output = '';
     for (const i in uri) {
       output += `<li floder>${i}`;
-      for (const d of uri[i]) {
-        output += `<li file="${i}/${d}">${d}</li>`
+      for (let d of uri[i]) {
+        d = d.replace(`.${i}`, ".html");
+        output += `<li file="./${i}/${d}" onclick="changePage(this)">${d}</li>`
       }
       output += `</li>`;
     }
     document.getElementById("list").innerHTML = output;
+    function changePage(dom) {
+      document.getElementById("page").setAttribute("src", dom.getAttribute("file"));
+    }
   </script>
 </body>
 
