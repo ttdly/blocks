@@ -1,6 +1,6 @@
 const fs = require("fs-extra"),
       shiki = require("shiki");
-const {output, baseDir, languages} = require("./config");
+const {output, baseDir, languages, head, foot} = require("./config");
 const uris = {};
 fs.removeSync(output);
 shiki.getHighlighter({
@@ -32,7 +32,7 @@ function code2html (fileName, highlighter, cate) {
     if (!fs.existsSync(`${output}/${cate}/`)) {
       fs.mkdirSync(`${output}/${cate}/`)
     };
-    out = `<link rel="stylesheet" href="../assets/css/code.css">\r\n ${out}`
+    out = `${head}${out}${foot}`
     fileName = fileName.replace(`.${cate}`,'.html');
     fs.writeFileSync(`${output}/${cate}/${fileName}`,out, {
       encoding:"utf-8"
