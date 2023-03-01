@@ -36,8 +36,8 @@
     for (const i in uri) {
       output += `<li floder>${i}`;
       for (let d of uri[i]) {
-        d = d.replace(`.${i}`, ".html");
-        output += `<li file="./${i}/${d}" onclick="changePage(this)">${d}</li>`
+        d = d.replace(`.${i}`, "");
+        output += `<li file="./${i}/${d}.html" onclick="changePage(this)">${d}</li>`
       }
       output += `</li>`;
     }
