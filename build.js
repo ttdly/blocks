@@ -1,10 +1,10 @@
 const fs = require("fs-extra"),
       shiki = require("shiki");
-const {output, baseDir, languages, head, foot} = require("./config");
+const {output, baseDir, languages, head, foot, theme} = require("./config");
 const uris = {};
 fs.removeSync(output);
 shiki.getHighlighter({
-  theme: 'github-light',
+  theme: theme,
   langs: languages
 }).then((highlighter) => {
   for (const i of languages) {
@@ -28,7 +28,7 @@ function code2html (fileName, highlighter, cate) {
       console.error(error);
       return false;
     }
-    let out = highlighter.codeToHtml(data, {lang: cate, theme: 'github-light'});
+    let out = highlighter.codeToHtml(data, {lang: cate, theme: theme});
     if (!fs.existsSync(`${output}/${cate}/`)) {
       fs.mkdirSync(`${output}/${cate}/`)
     };

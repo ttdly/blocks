@@ -2,6 +2,7 @@ module.exports = {
   baseDir: "./code",
   output: "./dist",
   languages: ["html", "java", "js"],
+  theme: 'vitesse-light',
   head:`<!DOCTYPE html>
   <html>
   <head>
